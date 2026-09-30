@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>郑瑞阳 | Ruiyang Zheng</title>
+<meta name="description" content="郑瑞阳 - 独立开发者 / Minecraft 动画资源创作者 / DawnAurora 项目作者" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg-deep: #03050a;
+    --bg-card: rgba(255, 255, 255, 0.04);
+    --bg-card-hover: rgba(255, 255, 255, 0.07);
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --text: #eaf2ff;
+    --text-dim: #8a97a8;
+    --text-muted: #5c6878;
+    --cyan: #7cf;
+    --blue: #60a5fa;
+    --green: #4ade80;
+    --purple: #a78bfa;
+    --glow-cyan: 0 0 18px rgba(124, 207, 255, 0.35);
+    --glow-blue: 0 0 22px rgba(96, 165, 250, 0.35);
+    --glow-green: 0 0 22px rgba(74, 222, 128, 0.35);
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+    --radius-md: 14px;
+    --shadow-1: 0 6px 24px rgba(0, 0, 0, 0.35);
+    --shadow-2: 0 14px 48px rgba(0, 0, 0, 0.45);
+    --glass: blur(18px) saturate(140%);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+body {
+    font-family: "Noto Sans SC", system-ui, -apple-system, Segoe UI, sans-serif;
+    background: 
+        radial-gradient(1200px 600px at 10% -10%, rgba(56, 189, 248, 0.12), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(96, 165, 250, 0.10), transparent 55%),
+        radial-gradient(700px 500px at 50% 120%, rgba(167, 139, 250, 0.08), transparent 60%),
+        linear-gradient(180deg, #04070f 0%, #03050a 100%);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+::selection { background: rgba(124, 207, 255, 0.35); color: #fff; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0a0f1a; }
+::-webkit-scrollbar-thumb { 
+    background: linear-gradient(180deg, #2a3547, #141a26); 
+    border-radius: 99px; 
+    border: 1px solid var(--line); 
+}
+
+.aurora {
+    position: fixed; inset: 0; z-index: -3; pointer-events: none;
+    background: 
+        radial-gradient(ellipse 600px 400px at 15% 20%, rgba(56, 189, 248, 0.18), transparent 60%),
+        radial-gradient(ellipse 700px 420px at 85% 30%, rgba(96, 165, 250, 0.14), transparent 60%),
+        radial-gradient(ellipse 500px 360px at 45% 80%, rgba(167, 139, 250, 0.10), transparent 60%);
+    animation: auroraMove 24s ease-in-out infinite alternate;
+}
+@keyframes auroraMove {
+    0% { transform: translateX(-6%) scale(1.04); }
+    100% { transform: translateX(6%) scale(1.08); }
+}
+
+.grid-bg {
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background-image: 
+        linear-gradient(rgba(124, 207, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 207, 255, 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 40%, transparent 80%);
+}
+
+#meteorBg { position: fixed; inset: 0; z-index: -1; pointer-events: none; width: 100%; height: 100%; }
+
+nav {
+    position: sticky; top: 0; z-index: 90; padding: 14px 0;
+    border-bottom: 1px solid transparent;
+    background: rgba(3, 5, 10, 0.55);
+    backdrop-filter: var(--glass);
+    -webkit-backdrop-filter: var(--glass);
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+nav.scrolled { 
+    border-bottom-color: var(--line); 
+    background: rgba(3, 5, 10, 0.72); 
+}
+
+.nav-inner { 
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.brand {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+.brand span {
+    background: linear-gradient(90deg, var(--cyan), var(--blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.nav-links { display: flex; gap: 20px; align-items: center; }
+.nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.25s ease;
+}
+.nav-links a:hover { color: var(--text); }
+
+main { 
+    position: relative; z-index: 1; 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 0 24px;
+}
+
+section { margin-bottom: 80px; }
+
+.section-title {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.section-title .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: var(--glow-cyan);
+}
+
+.hero {
+    padding: 80px 0 60px;
+    text-align: center;
+}
+
+.hero-avatar {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 900;
+    color: #04121f;
+    box-shadow: var(--glow-cyan), var(--shadow-2);
+}
+
+.hero h1 {
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+.hero h1 .gradient {
+    background: linear-gradient(90deg, var(--cyan), var(--blue), var(--green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 18px rgba(124, 207, 255, 0.25));
+}
+
+.hero .subtitle {
+    font-size: 20px;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.hero .desc {
+    max-width: 680px;
+    margin: 0 auto 32px;
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.hero-tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 36px;
+}
+.tag {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-dim);
+}
+.tag.primary {
+    border-color: rgba(124, 207, 255, 0.35);
+    color: var(--cyan);
+    background: rgba(124, 207, 255, 0.08);
+}
+.card {
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--line);
+    background: var(--bg-card);
+    backdrop-filter: var(--glass);
+    padding: 32px;
+    box-shadow: var(--shadow-1);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-2);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+.about-card p {
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 14px;
+}
+.about-card p:last-child { margin-bottom: 0; }
+
+.info-list {
+    list-style: none;
+}
+.info-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+.info-list li:last-child { border-bottom: none; }
+.info-list .label { color: var(--text-muted); }
+.info-list .value { color: var(--text); font-weight: 500; }
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+.skill-card {
+    text-align: center;
+    padding: 28px 20px;
+}
+.skill-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    background: rgba(124, 207, 255, 0.1);
+    border: 1px solid rgba(124, 207, 255, 0.3);
+}
+.skill-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+.skill-card p {
+    color: var(--text-dim);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.project-card {
+    position: relative;
+    overflow: hidden;
+}
+.project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(500px 200px at 50% 0%, rgba(74, 222, 128, 0.12), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.project-card:hover::before { opacity: 1; }
+
+.project-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+.project-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--green), #22c55e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: var(--glow-green);
+}
+.project-head h3 {
+    font-size: 22px;
+    font-weight: 900;
+}
+.project-head .badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: rgba(74, 222, 128, 0.12);
+    color: var(--green);
+    border: 1px solid rgba(74, 222, 128, 0.35);
+    font-weight: 600;
+}
+
+.project-desc {
+    color: var(--text-dim);
+    line-height: 1.8;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.project-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+}
+.project-link {
+    flex: 1;
+    min-width: 160px;
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.25s ease;
+}
+.project-link:hover {
+    border-color: var(--line-strong);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateX(4px);
+}
+.project-link.primary {
+    border-color: rgba(74, 222, 128, 0.35);
+    color: var(--green);
+}
+.project-link .arrow { color: var(--cyan); }
+.project-link.primary .arrow { color: var(--green); }
+
+footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 880px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .project-links { flex-direction: column; }
+    .hero { padding: 60px 0 40px; }
+}
+</style>
+</head>
+<body>
+
+<div class="aurora"></div>
+<div class="grid-bg"></div>
+<canvas id="meteorBg"></canvas>
+
+<nav id="navbar">
+    <div class="nav-inner">
+        <a href="#" class="brand">郑瑞阳<span>ZRY</span></a>
+        <div class="nav-links">
+            <a href="#about">关于</a>
+            <a href="#skills">技能</a>
+            <a href="#projects">项目</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+<section class="hero">
+    <div class="hero-avatar">郑</div>
+    <h1>你好，我是 <span class="gradient">郑瑞阳</span></h1>
+    <div class="subtitle">Ruiyang Zheng · 独立开发者 / Minecraft 动画创作者</div>
+    <p class="desc">
+        专注于 Minecraft 玩家动画资源开发与前端页面设计。DawnAurora 项目作者，
+        致力于打造更流畅、更自然的 Minecraft 玩家动作表现，同时深耕前端视觉与交互体验优化。
+    </p>
+    <div class="hero-tags">
+        <span class="tag primary">Minecraft 资源包开发</span>
+        <span class="tag">前端设计</span>
+        <span class="tag">Fabric 生态</span>
+        <span class="tag">动效设计</span>
+    </div>
+</section>
+
+<section id="about">
+    <div class="section-title">
+        <span class="dot"></span>
+        <h2>关于我</h2>
+    </div>
+    <div class="about-grid">
+        <div class="card about-card">
+            <p>
+                我是郑瑞阳，独立开发者，同时也是 Minecraft 资源包创作者。
+                主导开发了 DawnAurora Player Animation 玩家动画资源包，基于 EMF / ETF 框架重制 Minecraft 玩家全套动作。
+            </p>
+            <p>
+                擅长从视觉到动效的全流程设计，追求极致的画面表现与交互细节。
+                熟悉 GitHub Pages 静态站点搭建、前端样式与动效开发、Minecraft 资源包制作与调试。
+            </p>
+            <p>
+                目前 DawnAurora 项目处于 Alpha 测试阶段，持续迭代更新中，
+                致力于为 Minecraft 社区带来高质量的玩家动画体验。
+            </p>
+        </div>
+        <div class="card">
+            <ul class="info-list">
+                <li>
+                    <span class="label">姓名</span>
+                    <span class="value">郑瑞阳</span>
+                </li>
+                <li>
+                    <span class="label">身份</span>
+                    <span class="value">独立开发者</span>
+                </li>
+                <li>
+                    <span class="label">主项目</span>
+                    <span class="value">DawnAurora</span>
+                </li>
+                <li>
+                    <span class="label">方向</span>
+                    <span class="value">前端 / 游戏美术</span>
+                </li>
+                <li>
+                    <span class="label">协议</span>
+                    <span class="value">Apache-2.0</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="skills">
+    <div class="section-title">
+        <span class="dot"></span>
+        <h2>技能领域</h2>
+    </div>
+    <div class="skills-grid">
+        <div class="card skill-card">
+            <div class="skill-icon">🎨</div>
+            <h3>前端设计</h3>
+            <p>HTML / CSS / JavaScript 静态页面开发，玻璃拟态与动效设计，GitHub Pages 部署。</p>
+        </div>
+        <div class="card skill-card">
+            <div class="skill-icon">⛏️</div>
+            <h3>资源包开发</h3>
+            <p>Minecraft 资源包制作，玩家骨骼动画，EMF / ETF 框架适配与调试。</p>
+        </div>
+        <div class="card skill-card">
+            <div class="skill-icon">🛠️</div>
+            <h3>工具链</h3>
+            <p>Git 版本管理，GitHub 仓库运维，多镜像 CDN 分发，加速链路配置。</p>
+        </div>
+    </div>
+</section>
+
+<section id="projects">
+    <div class="section-title">
+        <span class="dot"></span>
+        <h2>我的项目</h2>
+    </div>
+
+    <div class="card project-card">
+        <div class="project-head">
+            <div class="project-icon">🎮</div>
+            <div>
+                <h3>DawnAurora Player Animation</h3>
+                <span class="badge">Alpha 0.0.1 · 1.20.1 Fabric</span>
+            </div>
+        </div>
+        <p class="project-desc">
+            我的世界玩家动画资源包，重制第一人称与第三人称全套玩家动作。
+            包含进食、武器挥砍、物品切换、移动优化等核心动画，依赖 EMF + ETF 前置模组运行。
+            提供国内加速镜像与官方源多下载渠道，适配国内访问体验。
+        </p>
+        <div class="project-links">
+            <a class="project-link primary" href="https://dawnaurora0221.github.io/dawnaurora-player-animation-resource-pack/" target="_blank">
+                <span>🌐 项目官网（GitHub Pages）</span>
+                <span class="arrow">→</span>
+            </a>
+            <a class="project-link" href="https://github.com/DawnAurora0221/dawnaurora-player-animation-resource-pack" target="_blank">
+                <span>💻 GitHub 仓库</span>
+                <span class="arrow">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+</main>
+
+<footer>
+    © 2026 郑瑞阳 Ruiyang Zheng · DawnAurora 项目作者
+</footer>
+
+<script>
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 10);
+});
+
+const canvas = document.getElementById('meteorBg');
+const ctx = canvas.getContext('2d');
+let meteors = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+function createMeteors() {
+    meteors = [];
+    const count = Math.min(28, Math.floor(window.innerWidth / 45));
+    for (let i = 0; i < count; i++) {
+        meteors.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height * 0.5,
+            len: Math.random() * 80 + 20,
+            speed: Math.random() * 5 + 3,
+            opacity: Math.random() * 0.5 + 0.2,
+        });
+    }
+}
+function drawMeteors() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    meteors.forEach(m => {
+        ctx.beginPath();
+        ctx.moveTo(m.x, m.y);
+        ctx.lineTo(m.x + m.len, m.y + m.len);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${m.opacity})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        m.x += m.speed;
+        m.y += m.speed;
+        if (m.x > canvas.width || m.y > canvas.height) {
+            m.x = Math.random() * canvas.width;
+            m.y = Math.random() * canvas.height * 0.4;
+        }
+    });
+    requestAnimationFrame(drawMeteors);
+}
+resizeCanvas();
+createMeteors();
+drawMeteors();
+window.addEventListener('resize', () => { resizeCanvas(); createMeteors(); });
+
+document.addEventListener('mousemove', e => {
+    const x = (e.clientX - window.innerWidth / 2) / 120;
+    const y = (e.clientY - window.innerHeight / 2) / 120;
+    document.documentElement.style.setProperty('--parallaxX', x + 'px');
+    document.documentElement.style.setProperty('--parallaxY', y + 'px');
+});
+</script>
+</body>
+</html>
